@@ -9,7 +9,14 @@ export const useBooksStore = defineStore({
   }),
   actions: {
     addNewBook(book) {
-      this.books.push({ ...book, id: uuid(), slug: book.title.toLowerCase().replace(/\s/g, '-') })
+      this.books = [
+        ...this.books,
+        {
+          ...book,
+          id: uuid(), 
+          slug: book.title.toLowerCase().replace(/\s/g, '-'),
+        }
+      ];
     },
     addBookCover(book, url) {
       this.books = this.books.map(object => {
