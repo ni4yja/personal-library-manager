@@ -15,6 +15,7 @@ export const useBooksStore = defineStore({
           ...book,
           id: uuid(), 
           slug: book.title.toLowerCase().replace(/\s/g, '-'),
+          time: new Date().getTime(),
         }
       ];
     },
@@ -48,6 +49,10 @@ export const useBooksStore = defineStore({
       return sortable.sort((a, b) => {
         return a.year.localeCompare(b.year)
       })
+    },
+    newestFirst(state) {
+      const sortable = [...state.books]
+      return sortable.sort((a, b) => b.time - a.time);
     }
   },
 })
