@@ -1,8 +1,9 @@
 <script setup>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBooksStore } from '../stores/books'
 import Footer from '../components/Footer.vue'
+import EditorJS from '@editorjs/editorjs';
 
 const route = useRoute()
 const bookStore = useBooksStore()
@@ -10,13 +11,21 @@ const book = computed(() => {
   return bookStore.books.find(book => book.slug === route.params.slug)
 })
 
-let note = ref('')
+const editor = new EditorJS({
+  holder: 'editorjs',
+  placeholder: 'Let`s write an awesome story!',
+});
 
-const addNote = (book, note) => {
-  bookStore.addBookNote(book, note)
-  note = ''
-}
-
+const saveNote = (book) => editor.save().then((outputData) => {
+  let noteArr = [];
+  return outputData?.blocks.forEach((item) => {
+    noteArr.push(item.data.text);
+    console.log('Article data: ', noteArr);
+    bookStore.addBookNote(book, noteArr.join(' '));
+  })
+}).catch((error) => {
+  console.log('Saving failed: ', error)
+});
 </script>
 
 <template>
@@ -31,17 +40,17 @@ const addNote = (book, note) => {
       </div>
     </div>
   </div>
-  <div class="row u-center">
+  <div v-if="book.note" class="row u-center">
     <div class="col-8">
-      <div v-if="book.note" class="content pt-6">
+      <div class="content pt-6">
         <h5 class="subtitle">Note: {{ book.note }}</h5>
       </div>
-      <div v-if="!book.note" class="content pt-6">
-        <form @submit.prevent="addNote(book, note)">
-          <textarea v-model="note"></textarea>
-          <input type="submit" class="btn-primary pull-right" />
-        </form>
-      </div>
+    </div>
+  </div>
+  <div class="row u-center">
+    <div class="col-8">
+      <div id="editorjs"></div>
+      <button @click="saveNote(book)" class="btn-success">Save</button>
     </div>
   </div>
   <Footer />
