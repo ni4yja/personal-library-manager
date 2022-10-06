@@ -2,7 +2,7 @@
 import { ref } from 'vue'
 import { useBooksStore } from '../stores/books'
 import BookColumn from './BookColumn.vue'
-import LoaderIcon from './LoaderIcon.vue'
+import LoaderIcon from '../icons/LoaderIcon.vue'
 
 const bookStore = useBooksStore()
 const sortByYear = ref(false)
@@ -25,9 +25,11 @@ const sortWithDelay = () => {
       </button>
     </div>
     <div v-if="sortByYear" class="row">
-      <BookColumn v-for="book in bookStore.booksByYear" :key="book.id" :book="book" />
+      <transition-group name="fade">
+        <BookColumn v-for="book in bookStore.booksByYear" :key="book.id" :book="book" />
+      </transition-group>
     </div>
-    <div v-else class="row">
+    <div v-if="!sortByYear" class="row">
       <transition-group name="fade">
         <BookColumn v-for="book in bookStore.newestFirst" :key="book.id" :book="book" />
       </transition-group>

@@ -1,20 +1,24 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import Book from '../views/Book.vue'
+import ViewBook from '../views/ViewBook.vue'
+import EditBook from '../views/EditBook.vue'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
     component: Home,
-    meta: { transition: 'slide-left' },
   },
   {
-    path: '/book/:slug',
-    name: 'Book',
-    component: Book,
-    meta: { transition: 'slide-right' },
-  }
+    path: '/book-view/:slug',
+    name: 'ViewBook',
+    component: ViewBook,
+  },
+  {
+    path: '/book-edit/:slug',
+    name: 'EditBook',
+    component: EditBook,
+  },
 ]
 
 const router = createRouter({
@@ -22,10 +26,5 @@ const router = createRouter({
   routes,
 })
 
-router.afterEach((to, from) => {
-  const toDepth = to.path.split('/').length
-  const fromDepth = from.path.split('/').length
-  to.meta.transitionName = toDepth < fromDepth ? 'slide-right' : 'slide-left'
-})
 
 export default router

@@ -37,9 +37,6 @@ const addNote = (book, note) => {
         <h5 class="subtitle">Note: {{ book.note }}</h5>
       </div>
       <div v-if="!book.note" class="content pt-6">
-        <p class="text-xl"><em>Books can be easily lost. You can borrow one to a friend for a few days, and then it
-            simply disappears. You can easily remember the name of the book, but not your friend's name. Leave a small
-            note here, and this unpleasant situation will not happen in the future. Or not. Just give it a try.</em></p>
         <form @submit.prevent="addNote(book, note)">
           <textarea v-model="note"></textarea>
           <input type="submit" class="btn-primary pull-right" />

@@ -44,10 +44,13 @@ const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
         <p>Title: {{ book.title }}</p>
         <p>Year: {{ book.year }}</p>
         <div class="card__action-bar u-center">
-          <router-link :to="`/book/${book.slug}`">
-            <button class="btn-link outline">View Details</button>
+          <router-link :to="`/book-view/${book.slug}`">
+            <button class="btn-link outline">View</button>
           </router-link>
-          <button @click="removeBook(book.id)" class="btn-link outline">
+          <router-link :to="`/book-edit/${book.slug}`">
+            <button class="btn-link outline">Edit</button>
+          </router-link>
+          <button @click="removeBook(book.id)" class="btn-link btn-danger">
             Delete
           </button>
         </div>

@@ -1,7 +1,7 @@
 <script setup>
-import MediumIcon from './MediumIcon.vue'
-import GithubIcon from './GithubIcon.vue'
-import TwitterIcon from './TwitterIcon.vue'
+import MediumIcon from '../icons/MediumIcon.vue'
+import GithubIcon from '../icons/GithubIcon.vue'
+import TwitterIcon from '../icons/TwitterIcon.vue'
 </script>
 
 <template>
