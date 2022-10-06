@@ -2,16 +2,16 @@
 import { useBooksStore } from '../stores/books'
 import { ref } from 'vue'
 
-const bookStore = useBooksStore();
+const bookStore = useBooksStore()
 const bookInfo = ref({
   author: '',
   title: '',
   cover: '',
-  year: null,
-});
+  year: null
+})
 const registerBook = () => {
   if (!bookInfo.value.author.trim() || !bookInfo.value.title.trim()) {
-    return alert("Please enter an author and a title of your book")
+    return alert('Please enter an author and a title of your book')
   }
   bookStore.addNewBook(bookInfo.value)
 
@@ -19,7 +19,7 @@ const registerBook = () => {
     author: '',
     title: '',
     cover: '',
-    year: null,
+    year: null
   }
 }
 </script>
@@ -29,9 +29,24 @@ const registerBook = () => {
     <div class="col-10">
       <form @submit.prevent="registerBook">
         <div class="form-group">
-          <input type="text" class="form-group-input" placeholder="Author" v-model="bookInfo.author" />
-          <input type="text" class="form-group-input" placeholder="Title" v-model="bookInfo.title" />
-          <input type="text" class="form-group-input" placeholder="Year" v-model="bookInfo.year" />
+          <input
+            type="text"
+            class="form-group-input"
+            placeholder="Author"
+            v-model="bookInfo.author"
+          />
+          <input
+            type="text"
+            class="form-group-input"
+            placeholder="Title"
+            v-model="bookInfo.title"
+          />
+          <input
+            type="text"
+            class="form-group-input"
+            placeholder="Year"
+            v-model="bookInfo.year"
+          />
           <button class="form-group-btn btn-dark">Add a book</button>
         </div>
       </form>
@@ -39,5 +54,4 @@ const registerBook = () => {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

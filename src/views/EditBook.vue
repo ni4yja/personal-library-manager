@@ -3,57 +3,66 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useBooksStore } from '../stores/books'
 import Footer from '../components/Footer.vue'
-import EditorJS from '@editorjs/editorjs';
+import EditorJS from '@editorjs/editorjs'
 
 const route = useRoute()
 const bookStore = useBooksStore()
 const book = computed(() => {
-  return bookStore.books.find(book => book.slug === route.params.slug)
+  return bookStore.books.find((book) => book.slug === route.params.slug)
 })
 
 const editor = new EditorJS({
   holder: 'editorjs',
-  placeholder: 'Let`s write an awesome story!',
-});
+  placeholder: 'Let`s write an awesome story!'
+})
 
-const saveNote = (book) => editor.save().then((outputData) => {
-  let noteArr = [];
-  return outputData?.blocks.forEach((item) => {
-    noteArr.push(item.data.text);
-    console.log('Article data: ', noteArr);
-    bookStore.addBookNote(book, noteArr.join(' '));
-  })
-}).catch((error) => {
-  console.log('Saving failed: ', error)
-});
+const saveNote = (book) =>
+  editor
+    .save()
+    .then((outputData) => {
+      let noteArr = []
+      return outputData?.blocks.forEach((item) => {
+        noteArr.push(item.data.text)
+        console.log('Article data: ', noteArr)
+        bookStore.addBookNote(book, noteArr.join(' '))
+      })
+    })
+    .catch((error) => {
+      console.log('Saving failed: ', error)
+    })
 </script>
 
 <template>
   <div>
-    <div class="hero bg-gray-700" style="z-index: 0;">
-    <img v-if="book.cover" :src="book.cover" alt="book cover" class="book-cover">
-    <div class="hero-body">
-      <div class="content">
-        <h5 class="subtitle text-white">{{ book.author }}</h5>
-        <h2 class="title text-gray-300">{{ book.title }}</h2>
-        <h5 class="subtitle text-gray-300">{{ book.year }}</h5>
+    <div class="hero bg-gray-700" style="z-index: 0">
+      <img
+        v-if="book.cover"
+        :src="book.cover"
+        alt="book cover"
+        class="book-cover"
+      />
+      <div class="hero-body">
+        <div class="content">
+          <h5 class="subtitle text-white">{{ book.author }}</h5>
+          <h2 class="title text-gray-300">{{ book.title }}</h2>
+          <h5 class="subtitle text-gray-300">{{ book.year }}</h5>
+        </div>
       </div>
     </div>
-  </div>
-  <div v-if="book.note" class="row u-center">
-    <div class="col-8">
-      <div class="content pt-6">
-        <h5 class="subtitle">Note: {{ book.note }}</h5>
+    <div v-if="book.note" class="row u-center">
+      <div class="col-8">
+        <div class="content pt-6">
+          <h5 class="subtitle">Note: {{ book.note }}</h5>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="row u-center">
-    <div class="col-8">
-      <div id="editorjs"></div>
-      <button @click="saveNote(book)" class="btn-success">Save</button>
+    <div class="row u-center">
+      <div class="col-8">
+        <div id="editorjs"></div>
+        <button @click="saveNote(book)" class="btn-success">Save</button>
+      </div>
     </div>
-  </div>
-  <Footer />
+    <Footer />
   </div>
 </template>
 

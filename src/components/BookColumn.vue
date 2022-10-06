@@ -8,22 +8,22 @@ const props = defineProps({
 })
 const bookStore = useBooksStore()
 
-const removeBook = id => bookStore.deleteBook(id)
+const removeBook = (id) => bookStore.deleteBook(id)
 const addCover = (book, cover) => bookStore.addBookCover(book, cover)
 
 const dropZoneRef = ref()
 const file = ref()
 const { base64: url } = useBase64(file)
 
-const onDrop = files => {
-  if (!files) return;
-  file.value = files[0];
-  addCover(props.book, url);
+const onDrop = (files) => {
+  if (!files) return
+  file.value = files[0]
+  addCover(props.book, url)
 }
 
-const onFileChange = e => {
-  file.value = e.target.files[0];
-  addCover(props.book, url);
+const onFileChange = (e) => {
+  file.value = e.target.files[0]
+  addCover(props.book, url)
 }
 
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
@@ -32,8 +32,12 @@ const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
 <template>
   <div class="col-4 col-md-3 col-sm-6">
     <div class="card">
-      <div class="card__container" ref="dropZoneRef" :class="{ border: isOverDropZone }">
-        <img v-if="book.cover" :src="book.cover" alt="book cover">
+      <div
+        class="card__container"
+        ref="dropZoneRef"
+        :class="{ border: isOverDropZone }"
+      >
+        <img v-if="book.cover" :src="book.cover" alt="book cover" />
         <div v-if="!book.cover" class="no-cover__container">
           <p>Drag and drop an image here or click the button</p>
           <input type="file" accept="image/*" @input="onFileChange" />

@@ -5,7 +5,7 @@ import TwitterIcon from '../icons/TwitterIcon.vue'
 </script>
 
 <template>
-<footer class="footer">
+  <footer class="footer">
     <h6 class="footer__title text-white uppercase">Follow me</h6>
     <div class="content">
       <div class="divider"></div>

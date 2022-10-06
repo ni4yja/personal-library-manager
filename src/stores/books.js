@@ -13,34 +13,32 @@ export const useBooksStore = defineStore({
         ...this.books,
         {
           ...book,
-          id: uuid(), 
+          id: uuid(),
           slug: book.title.toLowerCase().replace(/\s/g, '-'),
-          time: new Date().getTime(),
+          time: new Date().getTime()
         }
-      ];
+      ]
     },
     addBookCover(book, url) {
-      this.books = this.books.map(object => {
+      this.books = this.books.map((object) => {
         if (object.id === book.id) {
-
-          return {...object, cover: url };
+          return { ...object, cover: url }
         }
-        return object;
-      });
-      return this.books;
+        return object
+      })
+      return this.books
     },
     addBookNote(book, note) {
-      this.books = this.books.map(object => {
+      this.books = this.books.map((object) => {
         if (object.id === book.id) {
-
-          return {...object, note: note };
+          return { ...object, note: note }
         }
-        return object;
-      });
-      return this.books;
+        return object
+      })
+      return this.books
     },
     deleteBook(id) {
-      this.books = this.books.filter(book => book.id !== id)
+      this.books = this.books.filter((book) => book.id !== id)
     }
   },
   getters: {
@@ -52,7 +50,7 @@ export const useBooksStore = defineStore({
     },
     newestFirst(state) {
       const sortable = [...state.books]
-      return sortable.sort((a, b) => b.time - a.time);
+      return sortable.sort((a, b) => b.time - a.time)
     }
-  },
+  }
 })
