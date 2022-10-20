@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 import { useBase64, useDropZone } from '@vueuse/core'
 import { useBooksStore } from '../stores/books'
-import DeleteModal from './DeleteBookConfirmation.vue'
-import DeleteBookConfirmation from './DeleteBookConfirmation.vue';
+import DeleteBookConfirmation from './DeleteBookConfirmation.vue'
+import useModal from '../helpers/modal.js'
 
 const props = defineProps({
   book: Object
@@ -29,15 +29,7 @@ const onFileChange = (e) => {
 
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
 
-const isModalOpen = ref(false)
-
-const openModal = () => {
-  isModalOpen.value = true
-}
-
-const closeModal = () => {
-  isModalOpen.value = false
-}
+const { isModalOpen, openModal, closeModal } = useModal();
 </script>
 
 <template>

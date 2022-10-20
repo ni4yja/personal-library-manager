@@ -1,5 +1,8 @@
 <script setup>
 import { useBooksStore } from '../stores/books'
+import { useRouter } from 'vue-router'
+
+const router = useRouter();
 
 const props = defineProps({
   isModalOpen: Boolean,
@@ -14,7 +17,13 @@ const closeModal = () => {
 
 const bookStore = useBooksStore()
 
-const removeBook = (id) => bookStore.deleteBook(id)
+const removeBook = (id) => {
+  if (router.currentRoute.value.name !== 'Home') {
+    bookStore.deleteBook(id)
+    router.push({ name: 'Home' })
+  }
+  bookStore.deleteBook(id)
+}
 </script>
 
 <template>

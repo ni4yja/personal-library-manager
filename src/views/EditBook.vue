@@ -6,6 +6,8 @@ import Footer from '../components/Footer.vue'
 import EditorJS from '@editorjs/editorjs'
 import TrashIcon from '../icons/TrashIcon.vue'
 import BooksIcon from '../icons/BooksIcon.vue'
+import useModal from '../helpers/modal.js'
+import DeleteBookConfirmation from '../components/DeleteBookConfirmation.vue'
 
 const route = useRoute()
 const bookStore = useBooksStore()
@@ -32,17 +34,19 @@ const saveNote = (book) =>
     .catch((error) => {
       console.log('Saving failed: ', error)
     })
+
+const { isModalOpen, openModal, closeModal } = useModal()
 </script>
 
 <template>
   <div>
     <div class="hero bg-gray-700" style="z-index: 0">
-      <img v-if="book.cover" :src="book.cover" alt="book cover" class="book-cover" />
+      <img v-if="book?.cover" :src="book?.cover" alt="book cover" class="book-cover" />
       <div class="hero-body">
         <div class="content">
-          <h5 class="subtitle text-white">{{ book.author }}</h5>
-          <h2 class="title text-gray-300">{{ book.title }}</h2>
-          <h5 class="subtitle text-gray-300">{{ book.year }}</h5>
+          <h5 class="subtitle text-white">{{ book?.author }}</h5>
+          <h2 class="title text-gray-300">{{ book?.title }}</h2>
+          <h5 class="subtitle text-gray-300">{{ book?.year }}</h5>
           <div class="buttons-container">
             <div class="logo">
               <router-link :to="'/'">
@@ -52,18 +56,18 @@ const saveNote = (book) =>
               </router-link>
             </div>
             <div class="action-items">
-              <button class="outline btn-transparent text-danger">
+              <a href="#confirm-delete" class="outline btn-transparent text-danger delete" @click="openModal()">
                 <TrashIcon />
-              </button>
+              </a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div v-if="book.note" class="row u-center">
+    <div v-if="book?.note" class="row u-center">
       <div class="col-8">
         <div class="content pt-6">
-          <h5 class="subtitle">Note: {{ book.note }}</h5>
+          <h5 class="subtitle">Note: {{ book?.note }}</h5>
         </div>
       </div>
     </div>
@@ -74,6 +78,7 @@ const saveNote = (book) =>
       </div>
     </div>
     <Footer />
+    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
   </div>
 </template>
 
