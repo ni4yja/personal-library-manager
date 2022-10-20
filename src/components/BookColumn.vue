@@ -29,14 +29,22 @@ const onFileChange = (e) => {
 
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
 
-const { isModalOpen, openModal, closeModal } = useModal();
+const { isModalOpen, openModal, closeModal } = useModal()
 </script>
 
 <template>
   <div class="col-4 col-md-3 col-sm-6">
-    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
+    <DeleteBookConfirmation
+      :book="book"
+      :isModalOpen="isModalOpen"
+      @hide-modal="closeModal"
+    />
     <div class="card">
-      <div class="card__container" ref="dropZoneRef" :class="{ border: isOverDropZone }">
+      <div
+        class="card__container"
+        ref="dropZoneRef"
+        :class="{ border: isOverDropZone }"
+      >
         <img v-if="book.cover" :src="book.cover" alt="book cover" />
         <div v-if="!book.cover" class="no-cover__container">
           <p>Drag and drop an image here or click the button</p>
@@ -54,7 +62,12 @@ const { isModalOpen, openModal, closeModal } = useModal();
           <router-link :to="`/book-edit/${book.slug}`">
             <button class="btn-link outline">Edit</button>
           </router-link>
-          <a href="#confirm-delete" class="btn btn-link btn-danger" @click="openModal()">Delete</a>
+          <a
+            href="#confirm-delete"
+            class="btn btn-link btn-danger"
+            @click="openModal()"
+            >Delete</a
+          >
         </div>
       </div>
     </div>

@@ -41,7 +41,12 @@ const { isModalOpen, openModal, closeModal } = useModal()
 <template>
   <div>
     <div class="hero bg-gray-700" style="z-index: 0">
-      <img v-if="book?.cover" :src="book?.cover" alt="book cover" class="book-cover" />
+      <img
+        v-if="book?.cover"
+        :src="book?.cover"
+        alt="book cover"
+        class="book-cover"
+      />
       <div class="hero-body">
         <div class="content">
           <h5 class="subtitle text-white">{{ book?.author }}</h5>
@@ -56,7 +61,11 @@ const { isModalOpen, openModal, closeModal } = useModal()
               </router-link>
             </div>
             <div class="action-items">
-              <a href="#confirm-delete" class="outline btn-transparent text-danger delete" @click="openModal()">
+              <a
+                href="#confirm-delete"
+                class="outline btn-transparent text-danger delete"
+                @click="openModal()"
+              >
                 <TrashIcon />
               </a>
             </div>
@@ -78,7 +87,11 @@ const { isModalOpen, openModal, closeModal } = useModal()
       </div>
     </div>
     <Footer />
-    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
+    <DeleteBookConfirmation
+      :book="book"
+      :isModalOpen="isModalOpen"
+      @hide-modal="closeModal"
+    />
   </div>
 </template>
 

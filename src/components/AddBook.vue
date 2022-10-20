@@ -27,18 +27,18 @@ const validate = (field) => {
   addBookFormSchema
     .validateAt(field, bookInfo.value)
     .then(() => {
-      errors.value[field] = "";
+      errors.value[field] = ''
     })
-    .catch(err => {
-      errors.value[field] = err.message;
-    });
+    .catch((err) => {
+      errors.value[field] = err.message
+    })
 }
 
 const registerBook = () => {
   addBookFormSchema
     .validate(bookInfo.value, { abortEarly: false })
     .then(() => {
-      errors.value = {};
+      errors.value = {}
       bookStore.addNewBook(bookInfo.value)
 
       bookInfo.value = {
@@ -48,11 +48,11 @@ const registerBook = () => {
         year: null
       }
     })
-    .catch(err => {
-      err.inner.forEach(error => {
-        errors.value[error.path] = error.message;
-      });
-    });
+    .catch((err) => {
+      err.inner.forEach((error) => {
+        errors.value[error.path] = error.message
+      })
+    })
 }
 </script>
 
@@ -62,19 +62,46 @@ const registerBook = () => {
       <form @submit.prevent="registerBook">
         <div class="form-group">
           <div class="form-field">
-            <input type="text" class="form-group-input" :class="{ 'input-error' : errors.author }" placeholder="Author"
-              v-model="bookInfo.author" @blur="validate('author')" @keypress="validate('author')" />
-            <p class="hint text-danger"><em>{{ errors.author }}</em></p>
+            <input
+              type="text"
+              class="form-group-input"
+              :class="{ 'input-error': errors.author }"
+              placeholder="Author"
+              v-model="bookInfo.author"
+              @blur="validate('author')"
+              @keypress="validate('author')"
+            />
+            <p class="hint text-danger">
+              <em>{{ errors.author }}</em>
+            </p>
           </div>
           <div class="form-field">
-            <input type="text" class="form-group-input" :class="{ 'input-error' : errors.title }" placeholder="Title"
-              v-model="bookInfo.title" @blur="validate('title')" @keypress="validate('title')" />
-            <p class="hint text-danger"><em>{{ errors.title }}</em></p>
+            <input
+              type="text"
+              class="form-group-input"
+              :class="{ 'input-error': errors.title }"
+              placeholder="Title"
+              v-model="bookInfo.title"
+              @blur="validate('title')"
+              @keypress="validate('title')"
+            />
+            <p class="hint text-danger">
+              <em>{{ errors.title }}</em>
+            </p>
           </div>
           <div class="form-field">
-            <input type="text" class="form-group-input" :class="{ 'input-error' : errors.year }" placeholder="Year"
-              v-model="bookInfo.year" @blur="validate('year')" @keypress="validate('year')" />
-            <p class="hint text-danger"><em>{{ errors.year }}</em></p>
+            <input
+              type="text"
+              class="form-group-input"
+              :class="{ 'input-error': errors.year }"
+              placeholder="Year"
+              v-model="bookInfo.year"
+              @blur="validate('year')"
+              @keypress="validate('year')"
+            />
+            <p class="hint text-danger">
+              <em>{{ errors.year }}</em>
+            </p>
           </div>
           <button class="form-group-btn btn-dark">Add a book</button>
         </div>
