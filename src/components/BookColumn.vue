@@ -2,13 +2,14 @@
 import { ref } from 'vue'
 import { useBase64, useDropZone } from '@vueuse/core'
 import { useBooksStore } from '../stores/books'
+import DeleteModal from './DeleteBookConfirmation.vue'
+import DeleteBookConfirmation from './DeleteBookConfirmation.vue';
 
 const props = defineProps({
   book: Object
 })
 const bookStore = useBooksStore()
 
-const removeBook = (id) => bookStore.deleteBook(id)
 const addCover = (book, cover) => bookStore.addBookCover(book, cover)
 
 const dropZoneRef = ref()
@@ -27,16 +28,23 @@ const onFileChange = (e) => {
 }
 
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
+
+const isModalOpen = ref(false)
+
+const openModal = () => {
+  isModalOpen.value = true
+}
+
+const closeModal = () => {
+  isModalOpen.value = false
+}
 </script>
 
 <template>
   <div class="col-4 col-md-3 col-sm-6">
+    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
     <div class="card">
-      <div
-        class="card__container"
-        ref="dropZoneRef"
-        :class="{ border: isOverDropZone }"
-      >
+      <div class="card__container" ref="dropZoneRef" :class="{ border: isOverDropZone }">
         <img v-if="book.cover" :src="book.cover" alt="book cover" />
         <div v-if="!book.cover" class="no-cover__container">
           <p>Drag and drop an image here or click the button</p>
@@ -54,9 +62,7 @@ const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
           <router-link :to="`/book-edit/${book.slug}`">
             <button class="btn-link outline">Edit</button>
           </router-link>
-          <button @click="removeBook(book.id)" class="btn-link btn-danger">
-            Delete
-          </button>
+          <a href="#confirm-delete" class="btn btn-link btn-danger" @click="openModal()">Delete</a>
         </div>
       </div>
     </div>
