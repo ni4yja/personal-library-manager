@@ -1,9 +1,13 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { useBase64, useDropZone } from '@vueuse/core'
 import { useBooksStore } from '../stores/books'
 import DeleteBookConfirmation from './DeleteBookConfirmation.vue'
 import useModal from '../helpers/modal.js'
+import gsap from 'gsap'
+
+const router = useRouter()
 
 const props = defineProps({
   book: Object
@@ -30,21 +34,55 @@ const onFileChange = (e) => {
 const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
 
 const { isModalOpen, openModal, closeModal } = useModal()
+
+const cardToAnimate = ref()
+
+const openDetails = async (book) => {
+  const windowWidth = window.innerWidth
+  const cardWidth = cardToAnimate.value.clientWidth
+  const cardOffsetLeft = cardToAnimate.value.offsetLeft
+  const cardOffsetTop = cardToAnimate.value.offsetTop
+  const imageHeigth = cardToAnimate.value.firstChild.clientHeight
+
+  await gsap.fromTo(
+    `#book-card-${book.id}`,
+    {
+      left: 0,
+      right: 0,
+      width: cardWidth,
+      top: cardOffsetTop,
+      zIndex: 1,
+    },
+    {
+      left: -cardOffsetLeft,
+      right: windowWidth - cardOffsetLeft - cardWidth,
+      width: windowWidth,
+      top: 0,
+      zIndex: 100,
+      duration: 1,
+      ease: 'power.in',
+    }
+  )
+
+  await gsap.fromTo(
+    '.card__container',
+    {
+      height: imageHeigth,
+    },
+    {
+      height: 400,
+      duration: .3,
+    }
+  )
+  router.push({ path: `/book-view/${book.slug}` })
+}
 </script>
 
 <template>
   <div class="col-4 col-md-3 col-sm-6">
-    <DeleteBookConfirmation
-      :book="book"
-      :isModalOpen="isModalOpen"
-      @hide-modal="closeModal"
-    />
-    <div class="card">
-      <div
-        class="card__container"
-        ref="dropZoneRef"
-        :class="{ border: isOverDropZone }"
-      >
+    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
+    <div class="card" ref="cardToAnimate" :id="`book-card-${book.id}`">
+      <div class="card__container" ref="dropZoneRef" :class="{ border: isOverDropZone }">
         <img v-if="book.cover" :src="book.cover" alt="book cover" />
         <div v-if="!book.cover" class="no-cover__container">
           <p>Drag and drop an image here or click the button</p>
@@ -56,18 +94,11 @@ const { isModalOpen, openModal, closeModal } = useModal()
         <p>Title: {{ book.title }}</p>
         <p>Year: {{ book.year }}</p>
         <div class="card__action-bar u-center">
-          <router-link :to="`/book-view/${book.slug}`">
-            <button class="btn-link outline">View</button>
-          </router-link>
+          <button class="btn-link outline" @click="openDetails(book)">View</button>
           <router-link :to="`/book-edit/${book.slug}`">
             <button class="btn-link outline">Edit</button>
           </router-link>
-          <a
-            href="#confirm-delete"
-            class="btn btn-link btn-danger"
-            @click="openModal()"
-            >Delete</a
-          >
+          <a href="#confirm-delete" class="btn btn-link btn-danger" @click="openModal()">Delete</a>
         </div>
       </div>
     </div>
@@ -75,6 +106,10 @@ const { isModalOpen, openModal, closeModal } = useModal()
 </template>
 
 <style>
+.bookshelf .card {
+  z-index: 1;
+}
+
 .bookshelf .card .card__container {
   background-color: #ced4d9;
   height: 21rem;

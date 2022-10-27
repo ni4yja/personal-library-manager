@@ -21,12 +21,7 @@ const { isModalOpen, openModal, closeModal } = useModal()
 <template>
   <div>
     <div class="hero bg-gray-700" style="z-index: 0">
-      <img
-        v-if="book?.cover"
-        :src="book?.cover"
-        alt="book cover"
-        class="book-cover"
-      />
+      <img v-if="book?.cover" :src="book?.cover" alt="book cover" class="book-cover" />
       <div class="hero-body">
         <div class="content">
           <h5 class="subtitle text-white">{{ book?.author }}</h5>
@@ -46,11 +41,7 @@ const { isModalOpen, openModal, closeModal } = useModal()
                   <AddNoteIcon />
                 </button>
               </router-link>
-              <a
-                href="#confirm-delete"
-                class="outline btn-transparent text-danger delete"
-                @click="openModal()"
-              >
+              <a href="#confirm-delete" class="outline btn-transparent text-danger delete" @click="openModal()">
                 <TrashIcon />
               </a>
             </div>
@@ -62,13 +53,11 @@ const { isModalOpen, openModal, closeModal } = useModal()
       <div class="col-8">
         <div v-if="!book?.note" class="pt-4">
           <p class="text-xl">
-            <em
-              >Books can be easily lost. You can borrow one to a friend for a
+            <em>Books can be easily lost. You can borrow one to a friend for a
               few days, and then it simply disappears. You can easily remember
               the name of the book, but not your friend's name. Leave a small
               note here, and this unpleasant situation will not happen in the
-              future. Or not. Just give it a try.</em
-            >
+              future. Or not. Just give it a try.</em>
           </p>
           <router-link :to="`/book-edit/${book?.slug}`">
             <button class="btn-link outline">Add a note</button>
@@ -80,11 +69,7 @@ const { isModalOpen, openModal, closeModal } = useModal()
       </div>
     </div>
     <Footer />
-    <DeleteBookConfirmation
-      :book="book"
-      :isModalOpen="isModalOpen"
-      @hide-modal="closeModal"
-    />
+    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
   </div>
 </template>
 
