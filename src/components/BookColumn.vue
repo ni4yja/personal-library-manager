@@ -42,7 +42,6 @@ const openDetails = async (book) => {
   const cardWidth = cardToAnimate.value.clientWidth
   const cardOffsetLeft = cardToAnimate.value.offsetLeft
   const cardOffsetTop = cardToAnimate.value.offsetTop
-  const imageHeigth = cardToAnimate.value.firstChild.clientHeight
 
   await gsap.fromTo(
     `#book-card-${book.id}`,
@@ -51,38 +50,36 @@ const openDetails = async (book) => {
       right: 0,
       width: cardWidth,
       top: cardOffsetTop,
-      zIndex: 1,
+      zIndex: 1
     },
     {
       left: -cardOffsetLeft,
       right: windowWidth - cardOffsetLeft - cardWidth,
       width: windowWidth,
-      top: 0,
+      top: -100,
       zIndex: 100,
       duration: 1,
-      ease: 'power.in',
+      ease: 'circ.out'
     }
   )
 
-  await gsap.fromTo(
-    '.card__container',
-    {
-      height: imageHeigth,
-    },
-    {
-      height: 400,
-      duration: .3,
-    }
-  )
   router.push({ path: `/book-view/${book.slug}` })
 }
 </script>
 
 <template>
   <div class="col-4 col-md-3 col-sm-6">
-    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
+    <DeleteBookConfirmation
+      :book="book"
+      :isModalOpen="isModalOpen"
+      @hide-modal="closeModal"
+    />
     <div class="card" ref="cardToAnimate" :id="`book-card-${book.id}`">
-      <div class="card__container" ref="dropZoneRef" :class="{ border: isOverDropZone }">
+      <div
+        class="card__container"
+        ref="dropZoneRef"
+        :class="{ border: isOverDropZone }"
+      >
         <img v-if="book.cover" :src="book.cover" alt="book cover" />
         <div v-if="!book.cover" class="no-cover__container">
           <p>Drag and drop an image here or click the button</p>
@@ -94,11 +91,18 @@ const openDetails = async (book) => {
         <p>Title: {{ book.title }}</p>
         <p>Year: {{ book.year }}</p>
         <div class="card__action-bar u-center">
-          <button class="btn-link outline" @click="openDetails(book)">View</button>
+          <button class="btn-link outline" @click="openDetails(book)">
+            View
+          </button>
           <router-link :to="`/book-edit/${book.slug}`">
             <button class="btn-link outline">Edit</button>
           </router-link>
-          <a href="#confirm-delete" class="btn btn-link btn-danger" @click="openModal()">Delete</a>
+          <a
+            href="#confirm-delete"
+            class="btn btn-link btn-danger"
+            @click="openModal()"
+            >Delete</a
+          >
         </div>
       </div>
     </div>
@@ -112,7 +116,7 @@ const openDetails = async (book) => {
 
 .bookshelf .card .card__container {
   background-color: #ced4d9;
-  height: 21rem;
+  height: 400px;
 }
 
 .bookshelf .card .card__container.border {
