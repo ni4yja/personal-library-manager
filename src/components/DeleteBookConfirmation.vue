@@ -1,4 +1,5 @@
 <script setup>
+import { ref } from 'vue'
 import { useBooksStore } from '../stores/books'
 import { useRouter } from 'vue-router'
 
@@ -17,12 +18,17 @@ const closeModal = () => {
 
 const bookStore = useBooksStore()
 
-const removeBook = (id) => {
+const removeBook = (book) => {
   if (router.currentRoute.value.name !== 'Home') {
-    bookStore.deleteBook(id)
+    bookStore.deleteBook(book.id)
     router.push({ name: 'Home' })
   }
-  bookStore.deleteBook(id)
+  bookStore.deleteBook(book.id)
+  bookStore.isBookDeleted = true
+  bookStore.deletedBook = book
+  setTimeout(() => {
+    bookStore.isBookDeleted = false
+  }, 5000)
 }
 </script>
 
@@ -71,7 +77,7 @@ const removeBook = (id) => {
         <button @click="closeModal()" class="btn-link btn-success mr-4">
           Keep it in my library
         </button>
-        <button @click="removeBook(book.id)" class="btn-link btn-danger">
+        <button @click="removeBook(book)" class="btn-link btn-danger">
           Remove it
         </button>
       </div>

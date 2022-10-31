@@ -5,7 +5,6 @@ import { useBase64, useDropZone } from '@vueuse/core'
 import { useBooksStore } from '../stores/books'
 import DeleteBookConfirmation from './DeleteBookConfirmation.vue'
 import useModal from '../helpers/modal.js'
-import gsap from 'gsap'
 
 const router = useRouter()
 
@@ -35,34 +34,7 @@ const { isOverDropZone } = useDropZone(dropZoneRef, onDrop)
 
 const { isModalOpen, openModal, closeModal } = useModal()
 
-const cardToAnimate = ref()
-
-const openDetails = async (book) => {
-  const windowWidth = window.innerWidth
-  const cardWidth = cardToAnimate.value.clientWidth
-  const cardOffsetLeft = cardToAnimate.value.offsetLeft
-  const cardOffsetTop = cardToAnimate.value.offsetTop
-
-  await gsap.fromTo(
-    `#book-card-${book.id}`,
-    {
-      left: 0,
-      right: 0,
-      width: cardWidth,
-      top: cardOffsetTop,
-      zIndex: 1
-    },
-    {
-      left: -cardOffsetLeft,
-      right: windowWidth - cardOffsetLeft - cardWidth,
-      width: windowWidth,
-      top: -100,
-      zIndex: 100,
-      duration: 1,
-      ease: 'circ.out'
-    }
-  )
-
+const openDetails = (book) => {
   router.push({ path: `/book-view/${book.slug}` })
 }
 </script>
@@ -74,7 +46,7 @@ const openDetails = async (book) => {
       :isModalOpen="isModalOpen"
       @hide-modal="closeModal"
     />
-    <div class="card" ref="cardToAnimate" :id="`book-card-${book.id}`">
+    <div class="card">
       <div
         class="card__container"
         ref="dropZoneRef"

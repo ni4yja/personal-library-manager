@@ -15,6 +15,11 @@ const sortWithDelay = () => {
     showLoader.value = false
   }, 500)
 }
+
+const undoRemoving = () => {
+  bookStore.addNewBook(bookStore.deletedBook)
+  bookStore.isBookDeleted = false
+}
 </script>
 
 <template>
@@ -42,6 +47,10 @@ const sortWithDelay = () => {
           :book="book"
         />
       </transition-group>
+    </div>
+    <div v-if="bookStore.isBookDeleted" class="toast">
+      <p>The book was removed successfully.</p>
+      <button class="btn mb-0" @click="undoRemoving()">Undo</button>
     </div>
   </div>
 </template>
@@ -74,6 +83,18 @@ const sortWithDelay = () => {
   to {
     -webkit-transform: rotate(360deg);
   }
+}
+
+.bookshelf .toast {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 auto;
+  position: sticky;
+  bottom: 0.5rem;
+  left: 0;
+  right: 0;
+  z-index: 100;
 }
 
 .sort-button {

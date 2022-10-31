@@ -5,7 +5,9 @@ import { v4 as uuid } from 'uuid'
 export const useBooksStore = defineStore({
   id: 'main',
   state: () => ({
-    books: useStorage('bookList', [])
+    books: useStorage('bookList', []),
+    isBookDeleted: false,
+    deletedBook: {}
   }),
   actions: {
     addNewBook(book) {
