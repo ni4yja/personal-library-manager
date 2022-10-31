@@ -69,12 +69,9 @@ const openDetails = (book) => {
           <router-link :to="`/book-edit/${book.slug}`">
             <button class="btn-link outline">Edit</button>
           </router-link>
-          <a
-            href="#confirm-delete"
-            class="btn btn-link btn-danger"
-            @click="openModal()"
-            >Delete</a
-          >
+          <button class="btn btn-link btn-danger" @click="openModal()">
+            Delete
+          </button>
         </div>
       </div>
     </div>

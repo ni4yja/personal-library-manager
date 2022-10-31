@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import { useBooksStore } from '../stores/books'
 import { useRouter } from 'vue-router'
 
@@ -35,12 +34,10 @@ const removeBook = (book) => {
 <template>
   <div
     v-if="isModalOpen"
-    id="confirm-delete"
-    class="modal modal-animated--zoom-in"
-    :class="{ 'modal--visible': isModalOpen }"
+    class="modal"
+    :class="{ 'modal--visible shown': isModalOpen }"
   >
     <a
-      href="#books"
       class="modal-overlay close-btn"
       aria-label="Close"
       @click="closeModal()"
@@ -48,8 +45,7 @@ const removeBook = (book) => {
     <div class="modal-content">
       <div class="modal-header">
         <a
-          href="#books"
-          class="u-pull-right"
+          class="u-pull-right close-btn mb-0"
           aria-label="Close"
           @click="closeModal()"
         >
