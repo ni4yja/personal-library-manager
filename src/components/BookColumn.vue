@@ -5,6 +5,7 @@ import { useBase64, useDropZone } from '@vueuse/core'
 import { useBooksStore } from '../stores/books'
 import DeleteBookConfirmation from './DeleteBookConfirmation.vue'
 import useModal from '../helpers/modal.js'
+import StarIcon from '../icons/StarIcon.vue'
 
 const router = useRouter()
 
@@ -37,6 +38,36 @@ const { isModalOpen, openModal, closeModal } = useModal()
 const openDetails = (book) => {
   router.push({ path: `/book-view/${book.slug}` })
 }
+
+const starsSet = ref([
+  {
+    isActive: false,
+    index: 0
+  },
+  {
+    isActive: false,
+    index: 1
+  },
+  {
+    isActive: false,
+    index: 2
+  },
+  {
+    isActive: false,
+    index: 3
+  },
+  {
+    isActive: false,
+    index: 4
+  }
+])
+const ratingCounter = ref(0)
+
+const setRating = (star) => {
+  star.isActive = !star.isActive
+  const rating = starsSet.value.filter((star) => star.isActive)
+  ratingCounter.value = rating.length
+}
 </script>
 
 <template>
@@ -59,9 +90,21 @@ const openDetails = (book) => {
         </div>
       </div>
       <div class="content pl-2 pr-2">
-        <p>Author: {{ book.author }}</p>
-        <p>Title: {{ book.title }}</p>
-        <p>Year: {{ book.year }}</p>
+        <br />
+        <div class="u-center rating">
+          <button
+            v-for="star of starsSet"
+            :index="star.index"
+            @click="setRating(star)"
+            :class="{ 'text-success': star.isActive }"
+            class="outline btn-transparent"
+          >
+            <StarIcon />
+          </button>
+        </div>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Title:</strong> {{ book.title }}</p>
+        <p><strong>Year:</strong> {{ book.year }}</p>
         <div class="card__action-bar u-center">
           <button class="btn-link outline" @click="openDetails(book)">
             View

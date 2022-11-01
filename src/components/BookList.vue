@@ -25,19 +25,31 @@ const undoRemoving = () => {
 <template>
   <div class="bookshelf">
     <div class="row u-center">
-      <button v-if="bookStore.books.length > 1" class="btn-link sort-button" @click="sortWithDelay()">
+      <button
+        v-if="bookStore.books.length > 1"
+        class="btn-link sort-button"
+        @click="sortWithDelay()"
+      >
         Sort by year
         <LoaderIcon v-if="showLoader" />
       </button>
     </div>
     <div v-if="sortByYear" class="row">
       <transition-group name="fade">
-        <BookColumn v-for="book in bookStore.booksByYear" :key="book.id" :book="book" />
+        <BookColumn
+          v-for="book in bookStore.booksByYear"
+          :key="book.id"
+          :book="book"
+        />
       </transition-group>
     </div>
     <div v-if="!sortByYear" class="row">
       <transition-group name="fade">
-        <BookColumn v-for="book in bookStore.newestFirst" :key="book.id" :book="book" />
+        <BookColumn
+          v-for="book in bookStore.newestFirst"
+          :key="book.id"
+          :book="book"
+        />
       </transition-group>
     </div>
     <div v-if="bookStore.isBookDeleted" class="toast">
