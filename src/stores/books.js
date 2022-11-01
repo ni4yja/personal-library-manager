@@ -46,9 +46,7 @@ export const useBooksStore = defineStore({
   getters: {
     booksByYear(state) {
       const sortable = [...state.books]
-      return sortable.sort((a, b) => {
-        return a.year.localeCompare(b.year)
-      })
+      return sortable.sort((a, b) => b.year - a.year)
     },
     newestFirst(state) {
       const sortable = [...state.books]
