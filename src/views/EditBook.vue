@@ -8,6 +8,7 @@ import TrashIcon from '../icons/TrashIcon.vue'
 import BooksIcon from '../icons/BooksIcon.vue'
 import useModal from '../helpers/modal.js'
 import DeleteBookConfirmation from '../components/DeleteBookConfirmation.vue'
+import StarIcon from '../icons/StarIcon.vue'
 
 const route = useRoute()
 const bookStore = useBooksStore()
@@ -36,6 +37,10 @@ const saveNote = (book) =>
     })
 
 const { isModalOpen, openModal, closeModal } = useModal()
+
+const setRating = (book, star) => {
+  bookStore.addRating(book, star)
+}
 </script>
 
 <template>
@@ -52,6 +57,17 @@ const { isModalOpen, openModal, closeModal } = useModal()
           <h5 class="subtitle text-white">{{ book?.author }}</h5>
           <h2 class="title text-gray-300">{{ book?.title }}</h2>
           <h5 class="subtitle text-gray-300">{{ book?.year }}</h5>
+          <div class="u-flex rating">
+            <button
+              v-for="star in book?.rating"
+              :index="star.index"
+              @click="setRating(book, star)"
+              :class="{ 'text-success': star.isActive }"
+              class="outline btn-transparent"
+            >
+              <StarIcon />
+            </button>
+          </div>
           <div class="buttons-container">
             <div class="logo">
               <router-link :to="'/'">
