@@ -64,7 +64,13 @@ const starsSet = ref([
 const ratingCounter = ref(0)
 
 const setRating = (star) => {
-  star.isActive = !star.isActive
+  starsSet.value.map((el) => {
+    if (el.index <= star.index) {
+      el.isActive = true
+    } else {
+      el.isActive = false
+    }
+  })
   const rating = starsSet.value.filter((star) => star.isActive)
   ratingCounter.value = rating.length
 }
@@ -128,7 +134,7 @@ const setRating = (star) => {
 
 .bookshelf .card .card__container {
   background-color: #ced4d9;
-  height: 400px;
+  height: 21rem;
 }
 
 .bookshelf .card .card__container.border {
