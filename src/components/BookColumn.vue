@@ -39,40 +39,8 @@ const openDetails = (book) => {
   router.push({ path: `/book-view/${book.slug}` })
 }
 
-const starsSet = ref([
-  {
-    isActive: false,
-    index: 0
-  },
-  {
-    isActive: false,
-    index: 1
-  },
-  {
-    isActive: false,
-    index: 2
-  },
-  {
-    isActive: false,
-    index: 3
-  },
-  {
-    isActive: false,
-    index: 4
-  }
-])
-const ratingCounter = ref(0)
-
-const setRating = (star) => {
-  starsSet.value.map((el) => {
-    if (el.index <= star.index) {
-      el.isActive = true
-    } else {
-      el.isActive = false
-    }
-  })
-  const rating = starsSet.value.filter((star) => star.isActive)
-  ratingCounter.value = rating.length
+const setRating = (book, star) => {
+  bookStore.addRating(book, star)
 }
 </script>
 
@@ -96,12 +64,11 @@ const setRating = (star) => {
         </div>
       </div>
       <div class="content pl-2 pr-2">
-        <br />
         <div class="u-center rating">
           <button
-            v-for="star of starsSet"
+            v-for="star in book.rating"
             :index="star.index"
-            @click="setRating(star)"
+            @click="setRating(book, star)"
             :class="{ 'text-success': star.isActive }"
             class="outline btn-transparent"
           >
