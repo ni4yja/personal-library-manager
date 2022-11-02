@@ -39,56 +39,16 @@ const openDetails = (book) => {
   router.push({ path: `/book-view/${book.slug}` })
 }
 
-const starsSet = ref([
-  {
-    isActive: false,
-    index: 0
-  },
-  {
-    isActive: false,
-    index: 1
-  },
-  {
-    isActive: false,
-    index: 2
-  },
-  {
-    isActive: false,
-    index: 3
-  },
-  {
-    isActive: false,
-    index: 4
-  }
-])
-const ratingCounter = ref(0)
-
-const setRating = (star) => {
-  starsSet.value.map((el) => {
-    if (el.index <= star.index) {
-      el.isActive = true
-    } else {
-      el.isActive = false
-    }
-  })
-  const rating = starsSet.value.filter((star) => star.isActive)
-  ratingCounter.value = rating.length
+const setRating = (book, star) => {
+  bookStore.addRating(book, star)
 }
 </script>
 
 <template>
   <div class="col-4 col-md-3 col-sm-6">
-    <DeleteBookConfirmation
-      :book="book"
-      :isModalOpen="isModalOpen"
-      @hide-modal="closeModal"
-    />
+    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
     <div class="card">
-      <div
-        class="card__container"
-        ref="dropZoneRef"
-        :class="{ border: isOverDropZone }"
-      >
+      <div class="card__container" ref="dropZoneRef" :class="{ border: isOverDropZone }">
         <img v-if="book.cover" :src="book.cover" alt="book cover" />
         <div v-if="!book.cover" class="no-cover__container">
           <p>Drag and drop an image here or click the button</p>
@@ -96,15 +56,9 @@ const setRating = (star) => {
         </div>
       </div>
       <div class="content pl-2 pr-2">
-        <br />
         <div class="u-center rating">
-          <button
-            v-for="star of starsSet"
-            :index="star.index"
-            @click="setRating(star)"
-            :class="{ 'text-success': star.isActive }"
-            class="outline btn-transparent"
-          >
+          <button v-for="star in book.rating" :index="star.index" @click="setRating(book, star)"
+            :class="{ 'text-success': star.isActive }" class="outline btn-transparent">
             <StarIcon />
           </button>
         </div>
@@ -134,7 +88,7 @@ const setRating = (star) => {
 
 .bookshelf .card .card__container {
   background-color: #ced4d9;
-  height: 400px;
+  height: 21rem;
 }
 
 .bookshelf .card .card__container.border {

@@ -17,7 +17,7 @@ const sortWithDelay = () => {
 }
 
 const undoRemoving = () => {
-  bookStore.addNewBook(bookStore.deletedBook)
+  bookStore.returnBook(bookStore.deletedBook)
   bookStore.isBookDeleted = false
 }
 </script>
