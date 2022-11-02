@@ -77,6 +77,14 @@ export const useBooksStore = defineStore({
     },
     deleteBook(id) {
       this.books = this.books.filter((book) => book.id !== id)
+    },
+    returnBook(book) {
+      this.books = [
+        ...this.books,
+        {
+          ...book
+        }
+      ]
     }
   },
   getters: {
