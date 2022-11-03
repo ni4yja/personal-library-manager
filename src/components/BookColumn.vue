@@ -46,9 +46,17 @@ const setRating = (book, star) => {
 
 <template>
   <div class="col-4 col-md-3 col-sm-6">
-    <DeleteBookConfirmation :book="book" :isModalOpen="isModalOpen" @hide-modal="closeModal" />
+    <DeleteBookConfirmation
+      :book="book"
+      :isModalOpen="isModalOpen"
+      @hide-modal="closeModal"
+    />
     <div class="card">
-      <div class="card__container" ref="dropZoneRef" :class="{ border: isOverDropZone }">
+      <div
+        class="card__container"
+        ref="dropZoneRef"
+        :class="{ border: isOverDropZone }"
+      >
         <img v-if="book.cover" :src="book.cover" alt="book cover" />
         <div v-if="!book.cover" class="no-cover__container">
           <p>Drag and drop an image here or click the button</p>
@@ -57,8 +65,13 @@ const setRating = (book, star) => {
       </div>
       <div class="content pl-2 pr-2">
         <div class="u-center rating">
-          <button v-for="star in book.rating" :index="star.index" @click="setRating(book, star)"
-            :class="{ 'text-success': star.isActive }" class="outline btn-transparent">
+          <button
+            v-for="star in book.rating"
+            :index="star.index"
+            @click="setRating(book, star)"
+            :class="{ 'text-success': star.isActive }"
+            class="outline btn-transparent"
+          >
             <StarIcon />
           </button>
         </div>
@@ -92,7 +105,7 @@ const setRating = (book, star) => {
 }
 
 .bookshelf .card .card__container.border {
-  border: 4px solid #99154b;
+  border: 4px solid #5e5cc6;
 }
 
 .bookshelf .card .card__container img {
