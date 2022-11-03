@@ -11,11 +11,11 @@ const isInfoBtnShow = ref(false)
 const main = ref()
 const sidebar = ref()
 
-const openSidebar = async () => {
+const openSidebar = () => {
   const mainWidth = main.value.clientWidth
   const sidebarTextWidth = sidebar.value.firstChild.clientWidth
 
-  await gsap.to(`#main-container`, {
+  gsap.to(`#main-container`, {
     width: mainWidth - 350
   })
 
@@ -23,7 +23,7 @@ const openSidebar = async () => {
     `#sidebar-container p`,
     {
       opacity: 0,
-      right: -sidebarTextWidth * 2
+      right: -sidebarTextWidth
     },
     {
       opacity: 1,
@@ -32,15 +32,17 @@ const openSidebar = async () => {
     }
   )
 
-  await gsap.fromTo(
+  gsap.fromTo(
     `#sidebar-container`,
     {
       width: 0,
+      right: -350,
       opacity: 0,
       zIndex: 0
     },
     {
       width: 350,
+      right: 0,
       opacity: 1,
       zIndex: 1
     }
@@ -57,10 +59,12 @@ const closeSidebar = async () => {
     `#sidebar-container`,
     {
       width: 350,
+      right: 0,
       opacity: 1
     },
     {
       width: 0,
+      right: -350,
       opacity: 0
     }
   )
@@ -83,12 +87,12 @@ const closeSidebar = async () => {
   <div class="home">
     <div id="main-container" ref="main" class="main">
       <div class="hero">
-        <div class="hero-body">
-          <div class="content">
-            <h4 class="title headline-4 w-60p">
-              Who borrowed my book this time?
+        <div class="hero-body row">
+          <div class="content col-8">
+            <h4 class="title headline-4 w-90p">
+              Who borrowed your book this time?
             </h4>
-            <h5 class="subtitle w-60p">
+            <h5 class="subtitle w-80p pt-2">
               In this simple personal library manager you can register your
               book, rate it and leave a comment.
             </h5>
@@ -114,6 +118,11 @@ const closeSidebar = async () => {
               </div>
             </div>
           </div>
+          <div class="image-container col-4">
+            <figure>
+              <img src="../assets/hero.png" alt="human with a book" />
+            </figure>
+          </div>
         </div>
       </div>
       <div class="row">
@@ -134,34 +143,38 @@ const closeSidebar = async () => {
         Pinia, VueUse, GSAP and YUP.<br />
         You can take a look at the source code
         <a href="https://github.com/ni4yja/personal-library-manager">here</a>.
-        You are welcome to leave your suggestions and comments.
+        Also you are welcome to leave your suggestions and comments.
         <img src="../assets/cat.png" alt="blue cat" />
       </p>
     </div>
   </div>
 </template>
 
-<style scoped>
+<style>
+body {
+  overflow-x: hidden;
+}
+
 .home {
   display: flex;
   position: relative;
   align-items: stretch;
 }
 
-.main {
+.home .main {
   width: 100%;
   z-index: 10;
 }
 
-.hero {
-  background-image: url('../assets/hero.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: 100% 0;
+.home .hero {
   background-color: #ced4d8;
 }
 
-.sidebar {
+.home .image-container img {
+  object-fit: fill;
+}
+
+.home .sidebar {
   opacity: 0;
   position: absolute;
   right: 0;

@@ -99,7 +99,7 @@ const { isModalOpen, openModal, closeModal } = useModal()
 <style>
 .hero {
   position: relative;
-  height: 400px;
+  min-height: 400px;
 }
 
 .book-cover {
