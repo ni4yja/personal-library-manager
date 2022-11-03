@@ -127,7 +127,7 @@ const closeSidebar = async () => {
     <div
       id="sidebar-container"
       ref="sidebar"
-      class="sidebar bg-black text-light pt-16 u-text-center"
+      class="sidebar bg-black text-light pt-12 u-text-center"
     >
       <p>
         This is a Vue 3 project written with Composition API. Libraries I used:
@@ -135,6 +135,7 @@ const closeSidebar = async () => {
         You can take a look at the source code
         <a href="https://github.com/ni4yja/personal-library-manager">here</a>.
         You are welcome to leave your suggestions and comments.
+        <img src="../assets/cat.png" alt="blue cat" />
       </p>
     </div>
   </div>
