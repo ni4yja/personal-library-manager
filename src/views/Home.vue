@@ -3,7 +3,7 @@ import { ref } from 'vue'
 import AddBook from '../components/AddBook.vue'
 import BookList from '../components/BookList.vue'
 import Footer from '../components/Footer.vue'
-import QuestionIcon from '../icons/QuestionIcon.vue'
+import InfoIcon from '../icons/InfoIcon.vue'
 import BooksIcon from '../icons/BooksIcon.vue'
 import gsap from 'gsap'
 
@@ -13,20 +13,36 @@ const sidebar = ref()
 
 const openSidebar = async () => {
   const mainWidth = main.value.clientWidth
+  const sidebarTextWidth = sidebar.value.firstChild.clientWidth
 
   await gsap.to(`#main-container`, {
-    width: mainWidth - 300
+    width: mainWidth - 350
   })
+
+  gsap.fromTo(
+    `#sidebar-container p`,
+    {
+      opacity: 0,
+      right: -sidebarTextWidth * 2
+    },
+    {
+      opacity: 1,
+      right: 0,
+      delay: 0.5
+    }
+  )
 
   await gsap.fromTo(
     `#sidebar-container`,
     {
       width: 0,
-      opacity: 0
+      opacity: 0,
+      zIndex: 0
     },
     {
-      width: 300,
-      opacity: 1
+      width: 350,
+      opacity: 1,
+      zIndex: 1
     }
   )
 
@@ -40,7 +56,7 @@ const closeSidebar = async () => {
   gsap.fromTo(
     `#sidebar-container`,
     {
-      width: 300,
+      width: 350,
       opacity: 1
     },
     {
@@ -49,10 +65,10 @@ const closeSidebar = async () => {
     }
   )
 
-  await gsap.fromTo(
+  gsap.fromTo(
     `#main-container`,
     {
-      width: mainWidth - 300
+      width: mainWidth - 350
     },
     {
       width: windowWidth
@@ -84,16 +100,16 @@ const closeSidebar = async () => {
                 <button
                   v-if="!isInfoBtnShow"
                   @click="openSidebar()"
-                  class="outline btn-transparent text-danger"
+                  class="outline btn-transparent text-link"
                 >
-                  <QuestionIcon />
+                  <InfoIcon />
                 </button>
                 <button
                   v-if="isInfoBtnShow"
                   @click="closeSidebar()"
-                  class="outline btn-transparent text-danger"
+                  class="outline btn-transparent text-link"
                 >
-                  <QuestionIcon />
+                  <InfoIcon />
                 </button>
               </div>
             </div>
@@ -108,7 +124,19 @@ const closeSidebar = async () => {
       </div>
       <Footer />
     </div>
-    <div id="sidebar-container" ref="sidebar" class="sidebar">ehehe</div>
+    <div
+      id="sidebar-container"
+      ref="sidebar"
+      class="sidebar bg-black text-light pt-16 u-text-center"
+    >
+      <p>
+        This is a Vue 3 project written with Composition API. Libraries I used:
+        Pinia, VueUse, GSAP and YUP.<br />
+        You can take a look at the source code
+        <a href="https://github.com/ni4yja/personal-library-manager">here</a>.
+        You are welcome to leave your suggestions and comments.
+      </p>
+    </div>
   </div>
 </template>
 
@@ -136,11 +164,17 @@ const closeSidebar = async () => {
   opacity: 0;
   position: absolute;
   right: 0;
-  color: red;
-  background: purple;
   min-height: 100vh;
   height: 100%;
-  width: 300px;
+  width: 350px;
   z-index: 0;
+  box-sizing: border-box;
+}
+
+.sidebar p {
+  opacity: 0;
+  position: absolute;
+  width: 100%;
+  padding: 0 20px;
 }
 </style>
