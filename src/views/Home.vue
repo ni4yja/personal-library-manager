@@ -176,7 +176,7 @@ body {
 
 .home .sidebar {
   opacity: 0;
-  position: absolute;
+  position: fixed;
   right: 0;
   min-height: 100vh;
   height: 100%;
